@@ -41,8 +41,8 @@ var baseMaps = {
   Satellite: satelliteStreets
 };
 
-// We define an object that contains all of our overlays. Any combination of
-// these overlays may be visible at the same time!
+//define an object that contains all of our overlays. Any combination of
+// these overlays may be visible at the same time
 var overlays = {
   "Tectonic Plates": tectonicplates,
   Earthquakes: earthquakes
@@ -73,7 +73,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
     };
   }
 
-  // Determines the color of the marker based on the magnitude of the earthquake.
+  //color of the marker based on the magnitude of the earthquake.
   function getColor(magnitude) {
     switch (true) {
     case magnitude > 5:
@@ -91,7 +91,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
     }
   }
 
-  // This function determines the radius of the earthquake marker based on its magnitude.
+  // radius of the earthquake marker based on its magnitude.
   // Earthquakes with a magnitude of 0 were being plotted with the wrong radius.
   function getRadius(magnitude) {
     if (magnitude === 0) {
@@ -101,31 +101,31 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
     return magnitude * 4;
   }
 
-  // Here we add a GeoJSON layer to the map once the file is loaded.
+  //add a GeoJSON layer to the map once the file is loaded.
   L.geoJson(data, {
     // We turn each feature into a circleMarker on the map.
     pointToLayer: function(feature, latlng) {
       return L.circleMarker(latlng);
     },
-    // We set the style for each circleMarker using our styleInfo function.
+    //set the style for each circleMarker using our styleInfo function.
     style: styleInfo,
-    // We create a popup for each marker to display the magnitude and location of
+    //create a popup for each marker to display the magnitude and location of
     // the earthquake after the marker has been created and styled
     onEachFeature: function(feature, layer) {
       layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
     }
-    // We add the data to the earthquake layer instead of directly to the map.
+    //add the data to the earthquake layer instead of directly to the map.
   }).addTo(earthquakes);
 
-  // Then we add the earthquake layer to our map.
+  //add the earthquake layer to our map.
   earthquakes.addTo(map);
 
-  // Here we create a legend control object.
+  // create a legend control object.
   var legend = L.control({
     position: "bottomright"
   });
 
-  // Then we add all the details for our legend
+  //add all the details for our legend
   legend.onAdd = function() {
     var div = L
       .DomUtil
@@ -141,7 +141,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
       "#ea2c2c"
     ];
 
-    // Loop through our intervals and generate a label with a colored square for each interval.
+    // Loop intervals and generate a label with a colored square for each interval.
     for (var i = 0; i < grades.length; i++) {
       div.innerHTML += "<i style='background: " + colors[i] + "'></i> " +
         grades[i] + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
@@ -163,7 +163,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
       })
       .addTo(tectonicplates);
 
-      // Then add the tectonicplates layer to the map.
+      // add the tectonicplates layer to map.
       tectonicplates.addTo(map);
     });
 });
